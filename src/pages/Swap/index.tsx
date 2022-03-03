@@ -39,6 +39,9 @@ import AppBody from '../AppBody';
 import { ClickableText } from '../Pool/styleds';
 import Loader from '../../components/Loader';
 
+// @ts-ignore
+import Keyring from '@keyringnetwork/web-component'
+
 export default function Swap() {
   const loadedUrlParams = useDefaultsFromURLSearch();
 
@@ -64,7 +67,7 @@ export default function Swap() {
       return !Boolean(token.address in defaultTokens);
     });
 
-  const { account } = useActiveWeb3React();
+  const { account, library } = useActiveWeb3React();
   const theme = useContext(ThemeContext);
 
   // toggle wallet when disconnected
@@ -344,6 +347,9 @@ export default function Swap() {
           </AutoColumn>
 
           <BottomGrouping>
+
+            <Keyring theme="green" provider={library} address={account} signer={library?.getSigner()} />
+
             {!account ? (
               <ButtonPrimary onClick={toggleWalletModal}>Connect Wallet</ButtonPrimary>
             ) : showWrap ? (
